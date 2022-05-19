@@ -1,0 +1,2 @@
+I was not able to convert jupyter notebook to HTML due to some system issues, so I converted jupyter cells
+to MD format and then to HTML using online converter, but it doesn't look good. All 3 files are attached.

@@ -1,0 +1,862 @@
+<h2 id="lab-6-the-importance-of-the-ploting">Lab 6: The importance of the ploting</h2>
+<h3 id="task-1-analyze-the-dataset-ans-csv-ans-csv-">Task 1) Analyze the dataset: <a href="ans.csv">ans.csv</a></h3>
+<p>Calculate the missing values (fill the tables).</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Sample variance of x</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Sample variance of y</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Correlation between x and y</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Linear regression line (y = a+bx)</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Coefficient of determination of the linear regression</td>
+<td>?</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<h3 id="task-2-analyze-the-dataset-ans2-tsv-ans2-tsv-">Task 2) Analyze the dataset: <a href="ans2.tsv">ans2.tsv</a></h3>
+<p>Calculate the missing values (fill the tables).</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy (up to 3 places)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>SD of x</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>SD of y</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Corr</td>
+<td>?</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<h3 id="__homework-__"><strong>Homework:</strong></h3>
+<p>Make the report in html (from jupyter) with the filled tables and scatter plots for:</p>
+<ul>
+<li>point 1, one single plot similar to the one from <a href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet">Wikipedia</a></li>
+<li>point 2, in this case make separte subplots for each dataset (the plot in structure should look similar to the plots from Task5 in Lab5 </li>
+</ul>
+<p>Can you guess what &quot;d&quot; and &quot;s&quot; stand for in given datasets of ans2.tsv?</p>
+<p>The report should contain:</p>
+<ul>
+<li>the main report file in html (with all the plots embedded)</li>
+<li>the jupyter notebook*</li>
+</ul>
+<p><em>* thus this time no </em>.py scripts as the python code should be included in jupyter/html</p>
+<hr>
+
+<p><i>The homework should be sent until 24.04.2022 via <b>email</b> with &#39;DAV22_lab6_hw_Name_Surname.7z&#39; (ASCII letters only) attachment.</i></p>
+<p><i>Using non-English labels, legends, descriptions, etc. will be scored -10%</i></p>
+<p><i>Additionally, all problems with the structure of the plot e.g. the plot size, labels font size, etc. will also affect the grading. You need to follow advice included in the lectures.</i></p>
+<p><strong>Epilog:</strong> Read the article <a href="https://www.autodeskresearch.com/publications/samestats">Same Stats, Different Graphs</a> </p>
+<pre><code class="lang-python"># Task <span class="hljs-number">1</span> read <span class="hljs-keyword">data</span>
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+from sklearn.metrics <span class="hljs-keyword">import</span> r2_score
+df = pd.read_csv(<span class="hljs-string">'ans.csv'</span>, index_col=<span class="hljs-number">0</span>)
+</code></pre>
+<pre><code class="lang-python"><span class="hljs-comment"># Calculate statistics and print tables task 1</span>
+for i in range(1,5):
+    x=df[f'x{i}']
+    y=df[f'y{i}']
+    print(f'<span class="hljs-comment">## Set: x{i}, y{i}  \n')    </span>
+    print('|<span class="hljs-string"> Property </span>|<span class="hljs-string"> Value </span>|<span class="hljs-string"> Accuracy (up to 3 places)</span>|<span class="hljs-string">  ')
+    print('</span>|<span class="hljs-string"> --- </span>|<span class="hljs-string"> --- </span>|<span class="hljs-string"> --- </span>|<span class="hljs-string">  ') 
+    print(f"</span>|<span class="hljs-string"> Mean of x </span>|<span class="hljs-string"> {round(x.mean(),3)} </span>|<span class="hljs-string"> 0.001 </span>|<span class="hljs-string">  ")
+    print(f"</span>|<span class="hljs-string"> Sample variance of x </span>|<span class="hljs-string"> {round(x.var(),3)} </span>|<span class="hljs-string"> 0.001 </span>|<span class="hljs-string">  ")
+    print(f"</span>|<span class="hljs-string"> Mean of y </span>|<span class="hljs-string"> {round(y.mean(),3)} </span>|<span class="hljs-string"> 0.001 </span>|<span class="hljs-string">  ")
+    print(f"</span>|<span class="hljs-string"> Sample variance of y </span>|<span class="hljs-string"> {round(y.var(),3)} </span>|<span class="hljs-string"> 0.001 </span>|<span class="hljs-string">  ")
+    print(f"</span>|<span class="hljs-string"> Correlation between x and y </span>|<span class="hljs-string"> {round(df.corr(method='pearson')[f'x{i}'][f'y{i}'],3)} </span>|<span class="hljs-string"> 0.001 </span>|<span class="hljs-string">  ")
+    a,b = np.polyfit(x,y,1)
+    print(f'</span>|<span class="hljs-string"> Linear regression line (y = a+bx)</span>|<span class="hljs-string"> y={round(a,3)}x+{round(b,3)} </span>|<span class="hljs-string"> 0.001 </span>|<span class="hljs-string">  ')
+    x_list = x.tolist()
+    print(f'</span>|<span class="hljs-string"> Coefficient of determination of the linear regression </span>|<span class="hljs-string"> {round(r2_score(y.tolist(),[a*i+b for i in x_list]),3)} </span>|<span class="hljs-string"> 0.001 </span>|<span class="hljs-string">  \n')</span>
+</code></pre>
+<h2 id="set-x1-y1">Set: x1, y1</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy (up to 3 places)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>9.0</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Sample variance of x</td>
+<td>11.0</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>7.501</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Sample variance of y</td>
+<td>4.127</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Correlation between x and y</td>
+<td>0.816</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Linear regression line (y = a+bx)</td>
+<td>y=0.5x+3.0</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Coefficient of determination of the linear regression</td>
+<td>0.667</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+<h2 id="set-x2-y2">Set: x2, y2</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy (up to 3 places)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>9.0</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Sample variance of x</td>
+<td>11.0</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>7.501</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Sample variance of y</td>
+<td>4.128</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Correlation between x and y</td>
+<td>0.816</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Linear regression line (y = a+bx)</td>
+<td>y=0.5x+3.001</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Coefficient of determination of the linear regression</td>
+<td>0.666</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+<h2 id="set-x3-y3">Set: x3, y3</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy (up to 3 places)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>9.0</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Sample variance of x</td>
+<td>11.0</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>7.5</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Sample variance of y</td>
+<td>4.123</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Correlation between x and y</td>
+<td>0.816</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Linear regression line (y = a+bx)</td>
+<td>y=0.5x+3.002</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Coefficient of determination of the linear regression</td>
+<td>0.666</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+<h2 id="set-x4-y4">Set: x4, y4</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy (up to 3 places)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>9.0</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Sample variance of x</td>
+<td>11.0</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>7.501</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Sample variance of y</td>
+<td>4.123</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Correlation between x and y</td>
+<td>0.817</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Linear regression line (y = a+bx)</td>
+<td>y=0.5x+3.002</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Coefficient of determination of the linear regression</td>
+<td>0.667</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="lang-python"><span class="hljs-comment"># Task 2 read data</span>
+<span class="hljs-attr">df2</span> = pd.read_csv(<span class="hljs-string">'ans2.tsv'</span>, sep=<span class="hljs-string">'\t'</span>)
+<span class="hljs-attr">datasets</span> = df2[<span class="hljs-string">'dataset'</span>].unique().tolist()
+</code></pre>
+<pre><code class="lang-python"><span class="hljs-comment"># Calculate statistics and print tables task 2</span>
+for dset in datasets:
+    dataset_df = df2.loc[(df2['dataset']==dset)]
+    print(f'<span class="hljs-comment">## Dataset: {dset}  \n')</span>
+    print('|<span class="hljs-string"> Property </span>|<span class="hljs-string"> Value </span>|<span class="hljs-string"> Accuracy (up to 3 places)</span>|<span class="hljs-string">  ')
+    print('</span>|<span class="hljs-string"> --- </span>|<span class="hljs-string"> --- </span>|<span class="hljs-string"> --- </span>|<span class="hljs-string">  ')
+    print(f"</span>|<span class="hljs-string"> Mean of x </span>|<span class="hljs-string"> {round(df2['x'].mean(),3)} </span>|<span class="hljs-string"> 0.001 </span>|<span class="hljs-string">  ")
+    print(f"</span>|<span class="hljs-string"> Mean of y </span>|<span class="hljs-string"> {round(df2['y'].mean(),3)} </span>|<span class="hljs-string"> 0.001 </span>|<span class="hljs-string">  ")
+    print(f"</span>|<span class="hljs-string"> SD of x </span>|<span class="hljs-string"> {round(df2['x'].std(),3)} </span>|<span class="hljs-string"> 0.001 </span>|<span class="hljs-string">  ")
+    print(f"</span>|<span class="hljs-string"> SD of y </span>|<span class="hljs-string"> {round(df2['y'].std(),3)} </span>|<span class="hljs-string"> 0.001 </span>|<span class="hljs-string">  ")
+    print(f"</span>|<span class="hljs-string"> Corr </span>|<span class="hljs-string"> {round(df2.corr(method='pearson')['x']['y'],3)} </span>|<span class="hljs-string"> 0.001 </span>|<span class="hljs-string">  \n")</span>
+</code></pre>
+<h2 id="dataset-d">Dataset: d</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy (up to 3 places)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>54.266</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>47.835</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of x</td>
+<td>16.713</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of y</td>
+<td>26.848</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Corr</td>
+<td>-0.066</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-a">Dataset: a</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy (up to 3 places)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>54.266</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>47.835</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of x</td>
+<td>16.713</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of y</td>
+<td>26.848</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Corr</td>
+<td>-0.066</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-h">Dataset: h</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy (up to 3 places)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>54.266</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>47.835</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of x</td>
+<td>16.713</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of y</td>
+<td>26.848</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Corr</td>
+<td>-0.066</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-v">Dataset: v</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy (up to 3 places)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>54.266</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>47.835</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of x</td>
+<td>16.713</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of y</td>
+<td>26.848</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Corr</td>
+<td>-0.066</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-x">Dataset: x</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy (up to 3 places)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>54.266</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>47.835</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of x</td>
+<td>16.713</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of y</td>
+<td>26.848</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Corr</td>
+<td>-0.066</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-s">Dataset: s</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy (up to 3 places)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>54.266</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>47.835</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of x</td>
+<td>16.713</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of y</td>
+<td>26.848</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Corr</td>
+<td>-0.066</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-high">Dataset: high</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy (up to 3 places)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>54.266</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>47.835</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of x</td>
+<td>16.713</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of y</td>
+<td>26.848</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Corr</td>
+<td>-0.066</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-dots">Dataset: dots</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy (up to 3 places)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>54.266</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>47.835</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of x</td>
+<td>16.713</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of y</td>
+<td>26.848</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Corr</td>
+<td>-0.066</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-circle">Dataset: circle</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy (up to 3 places)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>54.266</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>47.835</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of x</td>
+<td>16.713</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of y</td>
+<td>26.848</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Corr</td>
+<td>-0.066</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-bullseye">Dataset: bullseye</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy (up to 3 places)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>54.266</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>47.835</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of x</td>
+<td>16.713</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of y</td>
+<td>26.848</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Corr</td>
+<td>-0.066</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-slant_up">Dataset: slant_up</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy (up to 3 places)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>54.266</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>47.835</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of x</td>
+<td>16.713</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of y</td>
+<td>26.848</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Corr</td>
+<td>-0.066</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-slant_down">Dataset: slant_down</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy (up to 3 places)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>54.266</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>47.835</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of x</td>
+<td>16.713</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of y</td>
+<td>26.848</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Corr</td>
+<td>-0.066</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dataset-wide_lines">Dataset: wide_lines</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Accuracy (up to 3 places)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean of x</td>
+<td>54.266</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Mean of y</td>
+<td>47.835</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of x</td>
+<td>16.713</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>SD of y</td>
+<td>26.848</td>
+<td>0.001</td>
+</tr>
+<tr>
+<td>Corr</td>
+<td>-0.066</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="lang-python"><span class="hljs-comment"># Plot point 1</span>
+<span class="hljs-keyword">from</span> matplotlib <span class="hljs-keyword">import</span> pyplot <span class="hljs-keyword">as</span> plt 
+fig, axs = plt.subplots(<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">6</span>),sharex=<span class="hljs-keyword">True</span>,sharey=<span class="hljs-keyword">True</span>)
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">2</span>):
+    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">2</span>):
+        index = i*<span class="hljs-number">2</span> + j + <span class="hljs-number">1</span>
+        ax = axs[i,j]
+        ax.grid(zorder=<span class="hljs-number">1</span>)
+        ax.set_xlim([<span class="hljs-number">0</span>,<span class="hljs-number">20</span>])
+        ax.plot((<span class="hljs-number">0</span>,<span class="hljs-number">20</span>),(<span class="hljs-number">3</span>,<span class="hljs-number">13</span>),zorder=<span class="hljs-number">2</span>, color=<span class="hljs-string">'black'</span>)
+        ax.scatter(df[f<span class="hljs-string">'x{index}'</span>],df[f<span class="hljs-string">'y{index}'</span>], zorder=<span class="hljs-number">3</span>, facecolor=<span class="hljs-string">'white'</span>, edgecolor=<span class="hljs-string">'black'</span>)
+        ax.set_xlabel(f<span class="hljs-string">'x{index}'</span>, fontweight=<span class="hljs-string">'bold'</span>, fontsize=<span class="hljs-number">12</span>)
+        ax.set_ylabel(f<span class="hljs-string">'y{index}'</span>, fontweight=<span class="hljs-string">'bold'</span>, fontsize=<span class="hljs-number">12</span>)
+plt.tight_layout(rect=(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0.95</span>))
+fig.suptitle(<span class="hljs-string">'Task 1 datasets'</span>,fontsize=<span class="hljs-number">20</span>,fontweight=<span class="hljs-string">'bold'</span>)
+plt.show()
+</code></pre>
+<p><img src="./point1.png"/>  </p>
+<pre><code class="lang-python"># <span class="hljs-symbol">Plot</span> point <span class="hljs-number">2</span>
+fig, axs = plt.subplots(<span class="hljs-number">5</span>,<span class="hljs-number">3</span>,figsize=(<span class="hljs-number">9</span>,<span class="hljs-number">14</span>),sharex=<span class="hljs-symbol">True</span>,sharey=<span class="hljs-symbol">True</span>)
+for i in range(<span class="hljs-number">1</span>,<span class="hljs-number">5</span>):
+    for j in range(<span class="hljs-number">3</span>):
+        index = (i<span class="hljs-number">-1</span>)*<span class="hljs-number">3</span> + j
+        ax = axs[i,j]
+        ax.grid(zorder=<span class="hljs-number">1</span>)
+        dataset_df = df2.loc[(df2[<span class="hljs-string">'dataset'</span>]==datasets[index])]
+        x = dataset_df[<span class="hljs-string">'x'</span>]
+        y = dataset_df[<span class="hljs-string">'y'</span>]
+        ax.scatter(x,y, zorder=<span class="hljs-number">3</span>, facecolor=<span class="hljs-string">'white'</span>, edgecolor=<span class="hljs-string">'black'</span>)
+        ax.set_title(datasets[index], fontweight=<span class="hljs-string">'bold'</span>, fontsize=<span class="hljs-number">12</span>,color=<span class="hljs-string">'#4f4f4f'</span>)
+# add <span class="hljs-number">13</span> dataset
+ax=axs[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]
+ax.grid(zorder=<span class="hljs-number">1</span>)
+dataset_df = df2.loc[(df2[<span class="hljs-string">'dataset'</span>]==datasets[<span class="hljs-number">12</span>])]
+x = dataset_df[<span class="hljs-string">'x'</span>]
+y = dataset_df[<span class="hljs-string">'y'</span>]
+ax.scatter(x,y, zorder=<span class="hljs-number">3</span>, facecolor=<span class="hljs-string">'white'</span>, edgecolor=<span class="hljs-string">'black'</span>)
+ax.set_title(datasets[<span class="hljs-number">12</span>], fontweight=<span class="hljs-string">'bold'</span>, fontsize=<span class="hljs-number">12</span>,color=<span class="hljs-string">'#4f4f4f'</span>)
+axs[<span class="hljs-number">0</span>,<span class="hljs-number">1</span>].remove()
+axs[<span class="hljs-number">0</span>,<span class="hljs-number">2</span>].remove()
+##
+plt.tight_layout(rect=(<span class="hljs-number">0.05</span>,<span class="hljs-number">0.05</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0.95</span>))
+fig.suptitle(<span class="hljs-string">'Task 2 datasets'</span>,fontsize=<span class="hljs-number">20</span>,fontweight=<span class="hljs-string">'bold'</span>)
+fig.supxlabel(<span class="hljs-string">'X'</span>,fontsize=<span class="hljs-number">20</span>,fontweight=<span class="hljs-string">'bold'</span>)
+fig.supylabel(<span class="hljs-string">'Y'</span>,fontsize=<span class="hljs-number">20</span>,fontweight=<span class="hljs-string">'bold'</span>)
+plt.show()
+</code></pre>
+<p><img src="./point2.png"/>  </p>
