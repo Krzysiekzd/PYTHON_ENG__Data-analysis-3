@@ -1,5 +1,5 @@
 # Overview
-This repository is actually a report made for "Data analysis and visualization" laboratories. It contains plots, script and data files. The report can be found in lab6.html/lab6.md/lab6.ipynb files or below. Some additional issues are desribed in the additional_informations.txt file.
+This repository is actually a report made for "Data analysis and visualization" laboratories. It contains plots, script and data files. The report can be found in *lab6.html/lab6.md/lab6.ipynb* files or below. Some additional issues are desribed in the *additional_informations.txt* file.
    
     
 ## Lab 6: The importance of the ploting
